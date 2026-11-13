@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#081526" />
+  <title>Pocket Tanks Party</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <div class="ambient ambient-a"></div><div class="ambient ambient-b"></div>
+  <header class="topbar">
+    <a class="brand" href="/"><span class="brand-mark">PT</span><span>POCKET TANKS <b>PARTY</b></span></a>
+    <button id="open-tutorial" class="help-button" type="button"><span>✦</span> HOW TO PLAY</button><div class="top-meta"><span class="live-dot"></span><span id="connection-label">CONNECTING</span><span class="top-separator">/</span><span>ELEMENTAL ARCADE</span></div>
+  </header>
+
+  <main>
+    <section id="lobby-screen" class="lobby-screen">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="eyebrow-line"></span> FOUR ELEMENTS. ONE BATTLEFIELD.</div>
+        <h1>GOOD AIM.<br><em>BAD INTENTIONS.</em></h1>
+        <p class="hero-sub">A turn-based artillery party for your favourite people. Pick your element, call your shot, and let the hills settle it.</p>
+        <div class="hero-stats"><div><strong>02—08</strong><span>PLAYERS</span></div><div><strong>08</strong><span>ROUNDS</span></div><div><strong>10</strong><span>WEAPONS</span></div></div>
+      </div>
+      <div class="lobby-panel glass-panel">
+        <div class="panel-top"><div><span class="section-kicker">ENTER THE ARENA</span><h2>Make your move.</h2></div><span class="orbit-icon">✦</span></div>
+        <label class="field-label" for="player-name">YOUR CALLSIGN</label>
+        <input id="player-name" class="text-field" maxlength="18" placeholder="e.g. Captain Comet" value="" autocomplete="nickname" />
+        <div class="field-label element-label">CHOOSE YOUR ELEMENT · SIGNATURE WEAPON INCLUDED</div>
+        <div class="element-grid" id="element-grid">
+          <button class="element-choice selected" data-element="water"><span class="element-glyph"><img src="/icons/water.svg" alt="Water crest" /></span><span><b>Water</b><small>FLOW STATE</small></span></button>
+          <button class="element-choice" data-element="earth"><span class="element-glyph"><img src="/icons/earth.svg" alt="Earth crest" /></span><span><b>Earth</b><small>ROOTED</small></span></button>
+          <button class="element-choice" data-element="fire"><span class="element-glyph"><img src="/icons/fire.svg" alt="Fire crest" /></span><span><b>Fire</b><small>FULL SEND</small></span></button>
+          <button class="element-choice" data-element="air"><span class="element-glyph"><img src="/icons/air.svg" alt="Air crest" /></span><span><b>Air</b><small>LIGHT WORK</small></span></button>
+        </div>
+        <button id="create-room" class="primary-button"><span>CREATE A NEW ROOM</span><span>↗</span></button>
+        <div class="join-divider"><span></span> JOIN AN EXISTING ROOM <span></span></div>
+        <label class="field-label join-label" for="room-code">HAVE A ROOM CODE?</label>
+        <div class="join-row"><input id="room-code" class="text-field code-input" maxlength="6" placeholder="ENTER 6-CHARACTER CODE" autocomplete="off" /><button id="join-room" class="secondary-button">JOIN ROOM <span>→</span></button></div>
+        <div class="room-browser">
+          <div class="room-browser-head"><span class="field-label">OPEN ROOMS</span><button id="refresh-rooms" class="refresh-rooms" type="button">REFRESH ↻</button></div>
+          <div id="room-browser-list" class="room-browser-list"><div class="room-browser-empty">Looking for rooms…</div></div>
+        </div>
+        <button id="rejoin-room" class="rejoin-room hidden" type="button">↻ REJOIN YOUR LAST ROOM</button>
+        <div id="lobby-error" class="inline-error" role="status"></div>
+        <div class="panel-foot"><span>NO DOWNLOAD REQUIRED</span><span>BUILT FOR THE GROUP CHAT</span></div>
+      </div>
+      <div class="element-ribbon"><span class="ribbon-water">WATER</span><i></i><span class="ribbon-earth">EARTH</span><i></i><span class="ribbon-fire">FIRE</span><i></i><span class="ribbon-air">AIR</span></div>
+    </section>
+
+    <section id="room-screen" class="room-screen hidden">
+      <div class="room-heading"><div><div class="eyebrow"><span class="eyebrow-line"></span> YOUR BATTLE LOBBY</div><h1>ASSEMBLE <em>YOUR CREW.</em></h1></div><div class="room-code-card"><small>ROOM CODE</small><strong id="room-code-display">------</strong><button id="copy-code" aria-label="Copy room code">COPY ↗</button></div></div>
+      <div class="room-layout">
+        <div class="glass-panel player-panel"><div class="panel-heading"><div><span class="section-kicker">THE LINEUP</span><h2><span id="player-count">1</span> / 8 PLAYERS</h2></div><span class="waiting-pill"><i></i> WAITING</span></div><div id="player-list" class="player-list"></div><div class="invite-note"><span class="invite-icon">✦</span><span>Send the room code to your crew. The battlefield is better with company.</span></div></div>
+        <div class="glass-panel launch-panel"><div class="launch-art"><div class="launch-sun"></div><div class="launch-hill hill-back"></div><div class="launch-hill hill-front"></div><div class="launch-tank">▰</div></div><div id="room-waiting" class="room-waiting"><span class="waiting-orbit"><i></i><i></i><i></i></span><span><b id="waiting-title">YOUR ROOM IS OPEN</b><small id="waiting-copy">Waiting for another tank to join…</small></span></div><span class="section-kicker">THE RULES ARE SIMPLE</span><h2>Take turns.<br><em>Make a crater.</em></h2><p>Each tank gets one shot per turn. Aim, choose your weapon, and try not to become your own worst enemy.</p><div class="mini-rule"><span>01</span><div><b>100 HP</b><small>EVERY TANK STARTS EVEN</small></div></div><div class="mini-rule"><span>02</span><div><b>8 ROUNDS</b><small>LAST TANK OR TOP SCORE WINS</small></div></div><button id="start-match" class="primary-button"><span>START THE MATCH</span><span>↗</span></button><div id="host-hint" class="host-hint">PRESS START TO ENTER THE ARENA</div></div>
+      </div>
+      <div class="room-navigation"><button id="leave-lobby" class="text-button">← LEAVE ROOM</button></div>
+    </section>
+
+    <section id="game-screen" class="game-screen hidden">
+      <div id="pre-match-waiting" class="pre-match-waiting hidden" role="status" aria-live="polite">
+        <span class="pre-match-orbit"><i></i><i></i><i></i></span>
+        <span class="pre-match-copy"><b>YOU'RE IN THE ARENA</b><small id="pre-match-message">Waiting for another player to press START THE MATCH…</small></span>
+        <span class="pre-match-code"><small>ROOM CODE</small><b id="pre-match-code">------</b></span>
+      </div>
+      <div class="game-topline"><div><div class="eyebrow"><span class="eyebrow-line"></span> ELEMENTAL ARCADE <span class="top-separator">/</span> ROOM <b id="game-room-code">------</b></div><h1>THE <em>FIRING LINE.</em></h1></div><div class="game-top-actions"><button id="game-surrender" class="surrender-button" type="button">SURRENDER</button><div class="round-card"><small>ROUND</small><strong><span id="round-number">1</span><i>/</i>8</strong></div></div></div>
+      <div class="game-layout">
+        <aside class="scoreboard glass-panel"><div class="panel-heading"><div><span class="section-kicker">BATTLE RANKING</span><h2>THE CREW</h2></div><span class="score-icon">✦</span></div><div id="score-list" class="score-list"></div><div class="wind-card"><span class="wind-symbol">⌁</span><div><small>WIND</small><b id="wind-value">CALM</b></div></div></aside>
+        <div class="battle-column"><div class="battle-status glass-panel"><div class="turn-indicator"><span class="turn-pulse"></span><div><small id="turn-label">CURRENT TURN</small><strong id="turn-name">WAITING...</strong></div></div><div class="battle-status-right"><span id="turn-subtitle">AIM CAREFULLY</span><span class="round-progress"><i id="round-progress-fill"></i></span></div></div>
+          <div class="arena-frame"><canvas id="arena" width="1000" height="540" aria-label="Tank battlefield"></canvas><div class="arena-vignette"></div><div class="arena-caption"><span>FIELD 01 · THE FOUR CORNERS</span><span>GRAVITY: ON</span></div></div>
+          <div class="controls glass-panel"><div class="control-head"><div><span class="section-kicker">YOUR TURN, YOUR CALL</span><h2>Line it up.</h2></div><div class="control-head-actions"><button id="open-play-guide" class="control-guide-button" type="button">HOW TO AIM ?</button><span id="control-lock" class="control-lock">WAITING FOR TURN</span></div></div><div class="aim-controls"><div class="slider-control" id="angle-control"><div class="slider-label"><label for="angle">CANNON ANGLE</label><strong><span id="angle-value">42</span>°</strong></div><input id="angle" type="range" min="10" max="80" step="1" value="42" aria-label="Cannon angle in degrees" /><div class="range-ends"><span>LOW ARC</span><span>HIGH ARC</span></div></div><div class="slider-control" id="power-control"><div class="slider-label"><label for="power">FIRING POWER</label><strong><span id="power-value">62</span>%</strong></div><input id="power" type="range" min="15" max="100" step="1" value="62" aria-label="Firing power percentage" /><div class="range-ends"><span>SOFT</span><span>MAXIMUM</span></div></div></div>
+            <div class="movement-control" id="movement-control"><div class="movement-copy"><b>REPOSITION YOUR TANK</b><small>← / → arrows or A / D · 3 steps each turn</small></div><div class="movement-actions"><button id="move-left" type="button" aria-label="Move tank left">←</button><span id="moves-value">3 STEPS</span><button id="move-right" type="button" aria-label="Move tank right">→</button></div></div>
+            <div class="weapon-row" id="weapon-control"><div class="weapon-label">ARSENAL · SIGNATURE WEAPON IS ELEMENT-LOCKED</div><div id="weapon-list" class="weapon-list">
+              <button class="weapon-choice selected" data-weapon="standard"><span>●</span><b>Standard</b></button><button class="weapon-choice" data-weapon="heavy"><span>⬟</span><b>Heavy</b></button><button class="weapon-choice" data-weapon="cluster"><span>⁙</span><b>Cluster</b></button><button class="weapon-choice" data-weapon="napalm"><span>✹</span><b>Napalm</b></button><button class="weapon-choice" data-weapon="terraformer"><span>▧</span><b>Dirt mover</b></button><button class="weapon-choice" data-weapon="rocket"><span>➤</span><b>Rocket</b></button>
+              <button class="weapon-choice signature-weapon hidden" data-weapon="tidal_surge" data-element="water" title="Water signature: Tidal Surge"><span>◉</span><b>Tidal Surge</b><small>WATER</small></button>
+              <button class="weapon-choice signature-weapon hidden" data-weapon="seismic_fissure" data-element="earth" title="Earth signature: Seismic Fissure"><span>⬖</span><b>Seismic</b><small>EARTH</small></button>
+              <button class="weapon-choice signature-weapon hidden" data-weapon="solar_flare" data-element="fire" title="Fire signature: Solar Flare"><span>✷</span><b>Solar Flare</b><small>FIRE</small></button>
+              <button class="weapon-choice signature-weapon hidden" data-weapon="cyclone" data-element="air" title="Air signature: Cyclone"><span>⟲</span><b>Cyclone</b><small>AIR</small></button>
+            </div></div><div class="fire-row"><div class="fire-tip"><span>↳</span><span id="fire-tip-text">A clean shot is a kind shot. Allegedly.</span></div><button id="fire-button" class="fire-button"><span>FIRE!</span><b>↗</b></button></div></div>
+        </div>
+        <aside class="glass-panel event-panel"><div class="panel-heading"><div><span class="section-kicker">LIVE FEED</span><h2>FIELD NOTES</h2></div><span class="feed-dot"></span></div><div id="event-list" class="event-list"></div><div class="scoring-note"><small>SCORING</small><p><b>+1</b> damage · <b>+10</b> direct hit<br><b>+20</b> elimination · <b>−1</b> self-damage</p></div></aside>
+      </div>
+      <div id="match-result" class="match-result hidden"><div class="result-card"><span class="section-kicker">THE DUST HAS SETTLED</span><div class="result-cup">✦</div><h2 id="winner-title">VICTORY!</h2><p id="winner-copy">A legendary performance.</p><div id="final-score" class="final-score"></div><button id="back-to-lobby" class="primary-button"><span>BACK TO ROOM</span><span>↗</span></button></div></div>
+    </section>
+  </main>
+
+  <section id="surrender-confirm" class="surrender-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="surrender-title" aria-hidden="true">
+    <div class="surrender-card">
+      <span class="section-kicker">RETREAT FROM THE BATTLEFIELD?</span>
+      <div class="surrender-mark">⚑</div>
+      <h2 id="surrender-title">Are you sure?</h2>
+      <p>Surrendering will immediately retire your tank from this match. Your score will stay as it is.</p>
+      <div class="surrender-actions"><button id="cancel-surrender" class="secondary-button" type="button">KEEP FIGHTING</button><button id="confirm-surrender" class="surrender-confirm-button" type="button">YES, SURRENDER</button></div>
+    </div>
+  </section>
+
+  <section id="tutorial-overlay" class="tutorial-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="tutorial-title" aria-hidden="true">
+    <div class="tutorial-card">
+      <div class="tutorial-topline"><span class="section-kicker">FIELD MANUAL · POCKET TANKS PARTY</span><button id="tutorial-close" class="tutorial-close" type="button" aria-label="Close tutorial">×</button></div>
+      <div class="tutorial-progress" id="tutorial-progress" aria-hidden="true"></div>
+      <div class="tutorial-visual" id="tutorial-visual"><span class="tutorial-orbit orbit-one"></span><span class="tutorial-orbit orbit-two"></span><strong>✦</strong></div>
+      <div class="tutorial-copy"><span class="tutorial-step-label" id="tutorial-step-label">STEP 01 / 06</span><h2 id="tutorial-title">Know the mission.</h2><p id="tutorial-description"></p><div class="tutorial-tip" id="tutorial-tip"></div></div>
+      <div class="tutorial-actions"><button id="tutorial-back" class="secondary-button tutorial-back" type="button">← BACK</button><button id="tutorial-next" class="primary-button tutorial-next" type="button"><span>NEXT</span><span>→</span></button></div>
+      <button id="tutorial-skip" class="tutorial-skip" type="button">SKIP TUTORIAL</button>
+    </div>
+  </section>
+
+  <section id="play-guide" class="play-guide hidden" role="dialog" aria-modal="true" aria-labelledby="guide-title" aria-hidden="true">
+    <div class="guide-card">
+      <div class="guide-card-head"><span id="guide-step-label">CONTROL TOUR · 01 / 05</span><button id="guide-close" class="tutorial-close" type="button" aria-label="Close control guide">×</button></div>
+      <h2 id="guide-title">Set the cannon angle</h2>
+      <p id="guide-description"></p>
+      <div class="guide-hint" id="guide-hint"></div>
+      <div class="guide-actions"><button id="guide-back" class="secondary-button" type="button">← BACK</button><button id="guide-next" class="primary-button" type="button"><span>NEXT</span><span>→</span></button></div>
+    </div>
+  </section>
+
+  <footer>
+    <span>POCKET TANKS PARTY <b>·</b> AN ELEMENTAL ARCADE</span>
+    <span>ORIGINAL ART DIRECTION · FOUR ELEMENTS PALETTE</span>
+    <span class="creator-credit">CREATED BY <a href="https://www.linkedin.com/in/yaroslav-vorozhbyt-7a52aa85/" target="_blank" rel="noopener noreferrer" aria-label="Yaroslav Vorozhbyt on LinkedIn">YAROSLAV VOROZHBYT <span aria-hidden="true">↗</span></a></span>
+  </footer>
+  <script src="/client.js"></script>
+</body>
+</html>
